@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<base href="./releases/2026.11.20-phone-rc2/">
+<base href="./releases/2026.11.20-phone-rc3/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111626">
@@ -49,7 +49,7 @@
 <script>
 let unityInstance;
 const canvas=document.getElementById('game'), play=document.getElementById('play'), progress=document.getElementById('progress'), loading=document.getElementById('loading'), status=document.getElementById('status'), stage=document.getElementById('stage');
-const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.20-phone-rc2","autoSyncPersistentDataPath":true,"showBanner":null};
+const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.20-phone-rc3","autoSyncPersistentDataPath":true,"showBanner":null};
 config.showBanner=(message,type)=>{if(type==='error'){loading.textContent=message;status.textContent='The game could not start. Reload the page and try again.';console.error(message);}};
 play.addEventListener('click',()=>{
   if (unityInstance) { window.cpqControls.start(); canvas.focus({preventScroll:true}); return; }
