@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<base href="./releases/2026.11.20-phone-rc1/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111626">
+<title>Clover Park Quest</title>
+<meta name="description" content="Help Alice learn about the programs at Clover Park Technical College.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="game.css">
+<script src="controls.js" defer></script>
+</head>
+<body><main>
+<header><div><p class="eyebrow">Reezy Games</p><h1>Clover Park Quest</h1></div><button id="fullscreen" class="secondary" disabled>Full screen</button></header>
+<section id="stage" class="stage" aria-label="Clover Park Quest game">
+<div id="world">
+<canvas id="game" width="1280" height="720" tabindex="0" aria-label="Game. Walk with the directional pad, arrows or WASD. Use Talk or Enter to interact." hidden></canvas>
+<section id="dialogue" class="dialogue" aria-label="Conversation" hidden><div aria-live="polite"><strong id="speaker"></strong><p id="line"></p></div><div id="choices"></div></section>
+</div>
+<div id="cover" class="cover">
+<img src="cptc-logo.png" alt="Clover Park Technical College" class="logo">
+<div class="intro"><h2>Welcome to Clover Park Technical College</h2><p>Help Alice learn about the programs at Clover Park Technical College.</p><button id="play">Play</button>
+<progress id="progress" max="1" value="0" hidden aria-label="Game loading progress"></progress><p id="loading" role="status"></p></div>
+</div>
+<div id="touch-rail" aria-label="Touch controls" hidden>
+<button id="menu-toggle" class="secondary" aria-expanded="false" aria-controls="menu">Menu</button>
+<button id="context">Talk</button>
+<div id="dpad" role="group" aria-label="Walk">
+<button data-dir="up" aria-label="Walk up">▲</button><button data-dir="left" aria-label="Walk left">◀</button><button data-dir="right" aria-label="Walk right">▶</button><button data-dir="down" aria-label="Walk down">▼</button>
+</div>
+</div>
+<section id="menu" aria-label="Quest menu" hidden>
+<button data-action="map">Campus map</button><button data-action="binder">Card binder</button>
+<button data-action="save">Save</button><button data-action="load">Load</button>
+<button data-action="restart">Restart</button><button data-action="back">Back</button>
+<button data-action="leave">Return to cover</button>
+</section>
+<div id="rotate" role="status">Turn your phone sideways to play.</div>
+</section>
+<p id="status" aria-live="polite">Play with touch or a keyboard.</p>
+<section class="controls" aria-label="Game controls">
+<div><strong>Walk and talk</strong><span>Hold the pad, arrow keys or WASD to walk. Tap Talk or press <kbd>Enter</kbd> to talk and continue. Tap a choice, or use the arrows and <kbd>Enter</kbd>.</span></div>
+<div><strong>Map and binder</strong><span>Open Menu or use <kbd>M</kbd> for the campus map and <kbd>B</kbd> for the card binder. The Entry Coordinator gives Alice her map.</span></div>
+<div><strong>Save your quest</strong><span>Use Menu or press <kbd>K</kbd> to save and <kbd>L</kbd> to load. Return to this page in the same browser. Wait a few seconds after saving.</span></div>
+</section><footer><p>A student project set on the CPTC Lakewood campus.</p><p>Ronald Lethcoe · Reezy Games</p></footer>
+</main>
+<script>
+let unityInstance;
+const canvas=document.getElementById('game'), play=document.getElementById('play'), progress=document.getElementById('progress'), loading=document.getElementById('loading'), status=document.getElementById('status'), stage=document.getElementById('stage');
+const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.20-phone-rc1","autoSyncPersistentDataPath":true,"showBanner":null};
+config.showBanner=(message,type)=>{if(type==='error'){loading.textContent=message;status.textContent='The game could not start. Reload the page and try again.';console.error(message);}};
+play.addEventListener('click',()=>{
+  if (unityInstance) { window.cpqControls.start(); canvas.focus({preventScroll:true}); return; }
+  play.disabled=true;play.textContent='Loading…';progress.hidden=false;loading.textContent='Loading Clover Park Quest…';
+  if (window.cpqControls.enabled) config.devicePixelRatio = 1;
+  const script=document.createElement('script');script.src='Build/WebGL.loader.js';
+  script.onload=()=>{canvas.hidden=false;createUnityInstance(canvas,config,p=>{progress.value=p;loading.textContent='Loading '+Math.round(p*100)+'%';}).then(instance=>{
+    unityInstance=instance;document.getElementById('cover').hidden=true;
+    document.getElementById('fullscreen').disabled=!stage.requestFullscreen;
+    window.cpqControls.start();canvas.focus({preventScroll:true});status.textContent='Game ready. Leave the page open briefly after saving.';
+  }).catch(error=>{loading.textContent='Could not start the game: '+error;status.textContent='Reload the page and try again.';console.error(error);});};
+  script.onerror=()=>{loading.textContent='The game files could not download. Check the connection and reload.';};
+  document.body.appendChild(script);
+});
+document.getElementById('fullscreen').addEventListener('click',async()=>{try{await stage.requestFullscreen();canvas.focus();}catch{status.textContent='Play continues in this browser window.';}});
+canvas.addEventListener('pointerdown',()=>canvas.focus({preventScroll:true}));
+canvas.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(event.key))event.preventDefault();});
+document.addEventListener('fullscreenchange',()=>canvas.focus({preventScroll:true}));
+</script></body></html>
