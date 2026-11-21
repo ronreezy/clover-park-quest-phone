@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-<base href="./releases/2026.11.20-phone-rc3/">
+<base href="./releases/2026.11.21-phone-rc5/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111626">
 <title>Clover Park Quest</title>
 <meta name="description" content="Help Alice learn about the programs at Clover Park Technical College.">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="game.css">
-<script src="controls.js" defer></script>
+<link rel="stylesheet" href="game.css?v=2026.11.21-phone-rc5">
+<script src="controls.js?v=2026.11.21-phone-rc5" defer></script>
 </head>
 <body><main>
 <header><div><p class="eyebrow">Reezy Games</p><h1>Clover Park Quest</h1></div><button id="fullscreen" class="secondary" disabled>Full screen</button></header>
@@ -26,7 +26,8 @@
 <div id="touch-rail" aria-label="Touch controls" hidden>
 <button id="menu-toggle" class="secondary" aria-expanded="false" aria-controls="menu">Menu</button>
 <button id="context">Talk</button>
-<div id="card-actions" role="group" aria-label="Card controls" hidden><button id="card-flip" class="secondary">Flip card</button><button id="card-select">Ask about visiting</button></div>
+<div id="card-actions" role="group" aria-label="Card controls" hidden><button id="card-flip" class="secondary">Flip card</button><button id="card-select">Ask about visiting</button><div id="card-nav" aria-label="Browse program cards" hidden>
+<button id="card-prev" class="secondary" aria-label="Previous program">Prev</button><button id="card-next" class="secondary" aria-label="Next program">Next</button></div></div>
 <div id="dpad" role="group" aria-label="Walk">
 <button data-dir="up" aria-label="Walk up">▲</button><button data-dir="left" aria-label="Walk left">◀</button><button data-dir="right" aria-label="Walk right">▶</button><button data-dir="down" aria-label="Walk down">▼</button>
 </div>
@@ -49,13 +50,15 @@
 <script>
 let unityInstance;
 const canvas=document.getElementById('game'), play=document.getElementById('play'), progress=document.getElementById('progress'), loading=document.getElementById('loading'), status=document.getElementById('status'), stage=document.getElementById('stage');
-const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.20-phone-rc3","autoSyncPersistentDataPath":true,"showBanner":null};
+const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.21-phone-rc5","autoSyncPersistentDataPath":true,"showBanner":null};
+const buildQuery='?v='+encodeURIComponent(config.productVersion);
+for (const asset of ['dataUrl', 'frameworkUrl', 'codeUrl']) config[asset] += buildQuery;
 config.showBanner=(message,type)=>{if(type==='error'){loading.textContent=message;status.textContent='The game could not start. Reload the page and try again.';console.error(message);}};
 play.addEventListener('click',()=>{
   if (unityInstance) { window.cpqControls.start(); canvas.focus({preventScroll:true}); return; }
   play.disabled=true;play.textContent='Loading…';progress.hidden=false;loading.textContent='Loading Clover Park Quest…';
   if (window.cpqControls.enabled) config.devicePixelRatio = 1;
-  const script=document.createElement('script');script.src='Build/WebGL.loader.js';
+  const script=document.createElement('script');script.src='Build/WebGL.loader.js'+buildQuery;
   script.onload=()=>{canvas.hidden=false;createUnityInstance(canvas,config,p=>{progress.value=p;loading.textContent='Loading '+Math.round(p*100)+'%';}).then(instance=>{
     unityInstance=instance;document.getElementById('cover').hidden=true;
     document.getElementById('fullscreen').disabled=!stage.requestFullscreen;
