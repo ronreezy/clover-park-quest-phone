@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-<base href="./releases/2026.11.21-phone-rc5/">
+<base href="./releases/2026.11.22-phone-rc6/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111626">
 <title>Clover Park Quest</title>
 <meta name="description" content="Help Alice learn about the programs at Clover Park Technical College.">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="game.css?v=2026.11.21-phone-rc5">
-<script src="controls.js?v=2026.11.21-phone-rc5" defer></script>
+<link rel="stylesheet" href="game.css?v=2026.11.22-phone-rc6">
+<script src="controls.js?v=2026.11.22-phone-rc6" defer></script>
 </head>
 <body><main>
 <header><div><p class="eyebrow">Reezy Games</p><h1>Clover Park Quest</h1></div><button id="fullscreen" class="secondary" disabled>Full screen</button></header>
@@ -50,7 +50,7 @@
 <script>
 let unityInstance;
 const canvas=document.getElementById('game'), play=document.getElementById('play'), progress=document.getElementById('progress'), loading=document.getElementById('loading'), status=document.getElementById('status'), stage=document.getElementById('stage');
-const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.21-phone-rc5","autoSyncPersistentDataPath":true,"showBanner":null};
+const config={"dataUrl":"Build/WebGL.data.unityweb","frameworkUrl":"Build/WebGL.framework.js.unityweb","codeUrl":"Build/WebGL.wasm.unityweb","streamingAssetsUrl":"StreamingAssets","companyName":"Reezy Games","productName":"Clover Park Quest","productVersion":"2026.11.22-phone-rc6","autoSyncPersistentDataPath":true,"showBanner":null};
 const buildQuery='?v='+encodeURIComponent(config.productVersion);
 for (const asset of ['dataUrl', 'frameworkUrl', 'codeUrl']) config[asset] += buildQuery;
 config.showBanner=(message,type)=>{if(type==='error'){loading.textContent=message;status.textContent='The game could not start. Reload the page and try again.';console.error(message);}};
